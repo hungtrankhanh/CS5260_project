@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import math
+import matplotlib.pyplot as plt
 
 from models.ViT_helper import DropPath, to_2tuple, trunc_normal_
 from models.diff_aug import DiffAugment

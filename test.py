@@ -16,6 +16,8 @@ from utils.utils import set_log_dir, save_checkpoint, create_logger
 # from utils.fid_score import create_inception_graph, check_or_download_inception
 
 import torch
+from torchvision.utils import save_image
+import torchvision
 import os
 import numpy as np
 import torch.nn as nn
@@ -91,16 +93,16 @@ def main():
     gen_scheduler = LinearLrDecay(gen_optimizer, args.g_lr, 0.0, 0, args.max_iter * args.n_critic)
     dis_scheduler = LinearLrDecay(dis_optimizer, args.d_lr, 0.0, 0, args.max_iter * args.n_critic)
 
-    # # fid stat
-    # if args.dataset.lower() == 'cifar10':
-    #     fid_stat = 'fid_stat/fid_stats_cifar10_train.npz'
-    # elif args.dataset.lower() == 'stl10':
-    #     fid_stat = 'fid_stat/stl10_train_unlabeled_fid_stats_48.npz'
-    # elif args.fid_stat is not None:
-    #     fid_stat = args.fid_stat
-    # else:
-    #     raise NotImplementedError(f'no fid stat for {args.dataset.lower()}')
-    # assert os.path.exists(fid_stat)
+    # fid stat
+    if args.dataset.lower() == 'cifar10':
+        fid_stat = 'fid_stat/fid_stats_cifar10_train.npz'
+    elif args.dataset.lower() == 'stl10':
+        fid_stat = 'fid_stat/stl10_train_unlabeled_fid_stats_48.npz'
+    elif args.fid_stat is not None:
+        fid_stat = args.fid_stat
+    else:
+        raise NotImplementedError(f'no fid stat for {args.dataset.lower()}')
+    assert os.path.exists(fid_stat)
 
     # epoch number for dis_net
     args.max_epoch = args.max_epoch * args.n_critic
@@ -157,11 +159,24 @@ def main():
 
     # train loop
         
-    epoch = 2
+    epoches = 1
     backup_param = copy_params(gen_net)
     load_params(gen_net, gen_avg_param)
-    train(args, gen_net, dis_net, gen_optimizer, dis_optimizer, gen_avg_param, train_loader, epoch, writer_dict,
-          fixed_z, schedulers=None)
+    for epoch in range(epoches):
+        train(args, gen_net, dis_net, gen_optimizer, dis_optimizer, gen_avg_param, train_loader, epoch, writer_dict,
+              fixed_z, schedulers=None)
+        fid_score = validate(args, fixed_z, fid_stat, epoch, gen_net, writer_dict, )
+        logger.info(f'FID score: {fid_score} || @ epoch {epoch}.')
+        # load_params(gen_net, backup_param)
+
+    fake_imgs = gen_net(fixed_z, epoches).detach()
+
+    print("fake_imgs : ", fake_imgs)
+    print("fake_imgs shape : ", fake_imgs.shape)
+    torch.save(gen_net, "trained_gen_net.pt")
+    torch.save(dis_net, "trained_dis_net.pt")
+
+
     # fid_score = validate(args, fixed_z, fid_stat, epoch, gen_net, writer_dict, )
     # logger.info(f'FID score: {fid_score} || @ epoch {epoch}.')
     # load_params(gen_net, backup_param)
