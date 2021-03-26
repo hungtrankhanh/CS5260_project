@@ -159,7 +159,7 @@ def main():
 
     # train loop
         
-    epoches = 1
+    epoches = args.shared_epoch
     backup_param = copy_params(gen_net)
     load_params(gen_net, gen_avg_param)
     for epoch in range(epoches):
@@ -171,8 +171,10 @@ def main():
 
     fake_imgs = gen_net(fixed_z, epoches).detach()
 
-    print("fake_imgs : ", fake_imgs)
-    print("fake_imgs shape : ", fake_imgs.shape)
+    batch_num = len(fake_imgs)
+    for j in range(batch_num):
+        save_image(fake_imgs[j], 'output/gen_image_{}.png'.format(j))
+
     torch.save(gen_net, "trained_gen_net.pt")
     torch.save(dis_net, "trained_dis_net.pt")
 
