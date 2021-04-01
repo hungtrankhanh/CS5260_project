@@ -164,9 +164,12 @@ def main():
     load_params(gen_net, gen_avg_param)
     for epoch in range(epoches):
         train(args, gen_net, dis_net, gen_optimizer, dis_optimizer, gen_avg_param, train_loader, epoch, writer_dict,
-              fixed_z, schedulers=None)
+              fixed_z, schedulers=(gen_scheduler, dis_scheduler))
         fid_score = validate(args, fixed_z, fid_stat, epoch, gen_net, writer_dict, )
         logger.info(f'FID score: {fid_score} || @ epoch {epoch}.')
+        if (epoch > 0) and (epoch % 100) == 0:
+            torch.save(gen_net, "trained_gen_net_e{}.pth".format(epoch))
+            torch.save(dis_net, "trained_dis_net_e{}.pth".format(epoch))
         # load_params(gen_net, backup_param)
 
     fake_imgs = gen_net(fixed_z, epoches).detach()
@@ -175,8 +178,8 @@ def main():
     for j in range(batch_num):
         save_image(fake_imgs[j], 'output/gen_image_{}.png'.format(j))
 
-    torch.save(gen_net, "trained_gen_net.pt")
-    torch.save(dis_net, "trained_dis_net.pt")
+    torch.save(gen_net, "trained_gen_net.pth")
+    torch.save(dis_net, "trained_dis_net.pth")
 
 
     # fid_score = validate(args, fixed_z, fid_stat, epoch, gen_net, writer_dict, )

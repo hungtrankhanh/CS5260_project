@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-python test.py \
--gen_bs 64 \
--dis_bs 32 \
+nohup  python test.py \
+-gen_bs 32 \
+-dis_bs 16 \
 --dataset cifar10 \
 --bottom_width 8 \
 --img_size 32 \
 --max_iter 500000 \
---gen_model TransGAN_8_8_1 \
+--gen_model TransGAN_8_8_G2_1 \
 --dis_model ViT_8_8 \
 --df_dim 384 \
 --d_depth 7 \
@@ -34,6 +34,6 @@ python test.py \
 --grow_steps 0 0 \
 --fade_in 0 \
 --diff_aug translation,cutout,color \
---load_path ./pretrained_weight/cifar_checkpoint.pth \
 --exp_name cifar10_test \
---random_seed 5260
+--random_seed 5260 \
+--shared_epoch 300  > main_log.log 2>&1 & echo $! > desmond.pid
