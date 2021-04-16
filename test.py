@@ -162,14 +162,16 @@ def main():
     epoches = args.shared_epoch
     backup_param = copy_params(gen_net)
     load_params(gen_net, gen_avg_param)
+    best_score = 1e4
     for epoch in range(epoches):
         train(args, gen_net, dis_net, gen_optimizer, dis_optimizer, gen_avg_param, train_loader, epoch, writer_dict,
               fixed_z, schedulers=(gen_scheduler, dis_scheduler))
         fid_score = validate(args, fixed_z, fid_stat, epoch, gen_net, writer_dict, )
-        logger.info(f'FID score: {fid_score} || @ epoch {epoch}.')
-        if (epoch > 0) and (epoch % 100) == 0:
-            torch.save(gen_net, "trained_gen_net_e{}.pth".format(epoch))
-            torch.save(dis_net, "trained_dis_net_e{}.pth".format(epoch))
+        logger.info(f'FID score: {fid_score} - best ID score: {best_score} || @ epoch {epoch}.')
+        if best_score > fid_score:
+            best_score = fid_score
+            torch.save(gen_net, "best_trained_gen_net.pth")
+            torch.save(dis_net, "best_trained_dis_net.pth")
         # load_params(gen_net, backup_param)
 
     fake_imgs = gen_net(fixed_z, epoches).detach()
@@ -181,7 +183,8 @@ def main():
     torch.save(gen_net, "trained_gen_net.pth")
     torch.save(dis_net, "trained_dis_net.pth")
 
-
+    # best_model = torch.load("best_model")
+    # best_model.eval()
     # fid_score = validate(args, fixed_z, fid_stat, epoch, gen_net, writer_dict, )
     # logger.info(f'FID score: {fid_score} || @ epoch {epoch}.')
     # load_params(gen_net, backup_param)
