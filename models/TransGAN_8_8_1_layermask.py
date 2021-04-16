@@ -189,7 +189,7 @@ class Generator(nn.Module):
             self.pos_embed_2,
             self.pos_embed_3
         ]
-        
+        print("-----Generator Layermask 8 8 1")
         dpr = [x.item() for x in torch.linspace(0, drop_path_rate, depth)]  # stochastic depth decay rule
         self.blocks = nn.ModuleList([
                 Block(
