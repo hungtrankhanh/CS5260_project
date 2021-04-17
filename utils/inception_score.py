@@ -21,7 +21,9 @@ DATA_URL = 'http://download.tensorflow.org/models/image/imagenet/inception-2015-
 softmax = None
 
 # config = tf.ConfigProto(device_count = {'GPU': 0})
-config = tf.ConfigProto()
+# config = tf.ConfigProto()
+config = tf.compat.v1.ConfigProto()
+
 
 config.gpu_options.visible_device_list= '0'
 config.gpu_options.allow_growth = True

@@ -108,6 +108,7 @@ def main():
         checkpoint['dis_state_dict'] = dis_net.state_dict()
         score = validate(args, None, fid_stat, epoch, gen_net, writer_dict, clean_dir=True)
         # print these scores, is it really the latest
+        print(f'FID score: {score} - best ID score: {best} || @ epoch {epoch}.')
         if epoch%args.val_freq==0:
             save_checkpoint(checkpoint, is_best=(score<best), output_dir=args.output_dir)
             print("Saved Latest Model!")
