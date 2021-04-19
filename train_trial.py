@@ -88,6 +88,13 @@ def main():
     # fid stat
     if args.dataset.lower() == 'cifar10':
         fid_stat = 'fid_stat/fid_stats_cifar10_train.npz'
+    elif args.dataset.lower() == 'stl10':
+        fid_stat = 'fid_stat/stl10_train_unlabeled_fid_stats_48.npz'
+    elif args.fid_stat is not None:
+        fid_stat = args.fid_stat
+    else:
+        raise NotImplementedError  # (f"no fid stat for %s"%args.dataset.lower()")
+    assert os.path.exists(fid_stat)
 
     dataset = datasets.ImageDataset(args, cur_img_size=8)
     train_loader = dataset.train
@@ -109,10 +116,11 @@ def main():
         score = validate(args, None, fid_stat, epoch, gen_net, writer_dict, clean_dir=True)
         # print these scores, is it really the latest
         print(f'FID score: {score} - best ID score: {best} || @ epoch {epoch}.')
-        if epoch%args.val_freq==0:
-            save_checkpoint(checkpoint, is_best=(score<best), output_dir=args.output_dir)
-            print("Saved Latest Model!")
-            if score<best: best=score
+        if epoch == 0 or epoch > 50:
+            if score < best:
+                save_checkpoint(checkpoint, is_best=(score<best), output_dir=args.output_dir)
+                print("Saved Latest Model!")
+                best = score
 
     checkpoint = {'epoch':epoch, 'best_fid':best}
     checkpoint['gen_state_dict'] = gen_net.state_dict()
