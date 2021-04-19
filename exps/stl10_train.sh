@@ -8,13 +8,13 @@ python3 train_trial.py \
 --bottom_width 12 \
 --img_size 48 \
 --max_iter 500000 \
---gen_model TransGAN_8_8_1 \
+--gen_model TransGAN_8_8_G2_1 \
 --dis_model ViT_8_8 \
 --df_dim 384 \
 --d_depth 7 \
 --g_depth 5 \
 --latent_dim 1024 \
---gf_dim 1024 \
+--gf_dim 768 \
 --num_workers 36 \
 --g_spectral_norm False \
 --d_spectral_norm True \
@@ -26,8 +26,8 @@ python3 train_trial.py \
 --beta1 0 \
 --beta2 0.99 \
 --phi 1 \
---eval_batch_size 100 \
---num_eval_imgs 5000 \
+--eval_batch_size 25 \
+--num_eval_imgs 20000 \
 --init_type xavier_uniform \
 --n_critic 5 \
 --val_freq 20 \
