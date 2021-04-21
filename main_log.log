@@ -1,0 +1,5 @@
+nohup: ignoring input
+  File "train_trial.py", line 118
+    print(f"FID score: {score} - best ID score: {best} || @ epoch {epoch}.")
+                                                                          ^
+SyntaxError: invalid syntax
