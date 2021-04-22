@@ -177,6 +177,7 @@ class Generator(nn.Module):
                  num_heads=4, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
                  drop_path_rate=0., hybrid_backbone=None, norm_layer=nn.LayerNorm):
         super(Generator, self).__init__()
+        print("start TransGAN_8_8_G2_1_layermask")
         self.args = args
         self.ch = embed_dim
         self.bottom_width = args.bottom_width
@@ -216,10 +217,10 @@ class Generator(nn.Module):
 #                         drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer),
                     Block(
                         dim=embed_dim//16, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, 8))),
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, 8))),
                     Block(
                         dim=embed_dim//16, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, 8)))
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, 8)))
                  ]
                 )
                 ])
