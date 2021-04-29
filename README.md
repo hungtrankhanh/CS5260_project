@@ -1,6 +1,6 @@
-# CS5260-Project, group TO-GLAM: Transformers Only GAN with Layerwise Masking
+# CS5260-Project: Transformers Only GAN with Layerwise Masking
 
-## Authors: 
+## Group TO-GLAM:: 
 	- Louth Bin Rawshan (A0219290E)
 	- Ren Ruiqiang (A0218966M)
 	- Lim Jia Xian, Clarence (A0212209U)
