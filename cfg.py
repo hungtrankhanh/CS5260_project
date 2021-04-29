@@ -29,6 +29,16 @@ def parse_args():
         default=64,
         help='size of the batches')
     parser.add_argument(
+        '--mask_type',
+        type=int,
+        default=0,
+        help='0: square masking, 1: rowwise masking, 2: random masking')
+    parser.add_argument(
+        '--mask',
+        type=str,
+        default='0 0',
+        help='layer masking')
+    parser.add_argument(
         '-dis_bs',
         '--dis_batch_size',
         type=int,

@@ -9,6 +9,8 @@ python test.py \
 --max_iter 500000 \
 --gen_model TransGAN_8_8_G2_1 \
 --dis_model ViT_8_8 \
+--mask 8_8 \
+--mask_type 0 \
 --df_dim 384 \
 --d_depth 7 \
 --g_depth 5 \

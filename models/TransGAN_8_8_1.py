@@ -143,6 +143,7 @@ class Generator(nn.Module):
                  num_heads=4, mlp_ratio=4., qkv_bias=False, qk_scale=None, drop_rate=0., attn_drop_rate=0.,
                  drop_path_rate=0., hybrid_backbone=None, norm_layer=nn.LayerNorm):
         super(Generator, self).__init__()
+        print("TransGAN_8_8_1")
         self.args = args
         self.ch = embed_dim
         self.bottom_width = args.bottom_width
