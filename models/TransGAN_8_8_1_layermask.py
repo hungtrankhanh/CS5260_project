@@ -109,7 +109,13 @@ class Attention(nn.Module):
         # self.mask_8 = get_attn_mask(is_mask, 8)
         # self.mask_10 = get_attn_mask(is_mask, 10)
         if type(is_mask)==tuple:
-            self.mask = get_2d_attn_mask(*is_mask)
+            mask_type = is_mask[2]
+            if mask_type == 0: #square masking
+                self.mask = get_2d_attn_mask(is_mask[0], is_mask[1])
+            elif mask_type == 1:#rowwise masking
+                self.mask = get_attn_mask(is_mask[0], is_mask[1])
+            else:#random masking
+                self.mask = get_random_attn_mask(is_mask[0], is_mask[1])
 
     def forward(self, x, epoch):
         B, N, C = x.shape
@@ -178,7 +184,9 @@ class Generator(nn.Module):
                  drop_path_rate=0., hybrid_backbone=None, norm_layer=nn.LayerNorm):
         super(Generator, self).__init__()
         layer_mask = args.mask.split("_")
-        print("TransGAN_8_8_1_layermask : mask=(", layer_mask[0].strip(),", ", layer_mask[1].strip(), ")- mask type=", args.mask_type)
+        mask_l2 = int(layer_mask[0].strip())
+        mask_l3 = int(layer_mask[1].strip())
+        print("TransGAN_8_8_1_layermask : mask=(", mask_l2,",", mask_l3 ,")- mask type=", args.mask_type)
 
         self.args = args
         self.ch = embed_dim
@@ -207,16 +215,16 @@ class Generator(nn.Module):
 #                         drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer),
                     Block(
                         dim=embed_dim//4, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, 4))),
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, mask_l2, args.mask_type))),
                     Block(
                         dim=embed_dim//4, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, 4))),
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, mask_l2, args.mask_type))),
                     Block(
                         dim=embed_dim//4, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, 4))),
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, mask_l2, args.mask_type))),
                     Block(
                         dim=embed_dim//4, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, 4))),
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*2, mask_l2, args.mask_type))),
                  ]
                 ),
                  nn.ModuleList([
@@ -225,10 +233,10 @@ class Generator(nn.Module):
 #                         drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer),
                     Block(
                         dim=embed_dim//16, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, 8))),
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, mask_l3, args.mask_type))),
                     Block(
                         dim=embed_dim//16, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, 8)))
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, mask_l3, args.mask_type)))
                  ]
                 )
                 ])
