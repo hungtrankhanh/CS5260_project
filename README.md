@@ -6,46 +6,47 @@
 	- Lim Jia Xian, Clarence (A0212209U)
 	- Tran Khanh Hung (A0212253W)
 
-## Related work:
+## 1. Related work:
 Our code is inspired from the research paper [TransGAN: Two Transformers Can Make One Strong GAN](https://arxiv.org/abs/2102.07074) ([Github code](https://github.com/VITA-Group/TransGAN))
 
-## Main Pipeline
+## 2. Main Pipeline
 ![Main Pipeline](assets/TransGAN.png)
 
-## Self-attention mask
+## 3. Self-attention mask
 ![Self-Attention](assets/self-attention-mask.png)
 
-## Layer masking type
+## 4. Layer masking type
 
-### Temporal masking
+### 4.1 Temporal masking
 ![Temporal masking](assets/temporalmasking.png)
 
-### Square masking
+### 4.2 Square masking
 ![Square masking](assets/squaremask.png)
 
-### Row masking
+### 4.3 Row masking
 <img src="assets/rowmask.png" width="200" height="200"/>
 
-### Random masking
+### 4.4 Random masking
 <img src="assets/randommask.png" width="200" height="200"/>
 
-## Check points were trained in experiments
+## 5. Check points were trained in experiments
 
 ([Google Drive](https://drive.google.com/drive/folders/10nl0DKjPIT9Ze1GF67uD0yccxFHFzNM9?usp=sharing))
 
-## Environment setup
+## 6. Environment setup
 ```bash
 pip install -r requirements.txt
 ```
 Notice: Python version = 3.6
 
-## Training
+## 7. Training
 ```bash
 # cifar-10
 sh exps/cifar10_train.sh
 
 # stl-10
 sh exps/stl10_train.sh
+```
 
 * Notice: 
 	--gen_model TransGAN_8_8_1 : train baseline model on cifar10 dataset
@@ -59,8 +60,8 @@ sh exps/stl10_train.sh
 	--mask 4_8 : set mask size 4 and 8 for layer 2 and layer 3 of layer masking models respectively. The mask size can be set to 8_4 (big to small masking) , 4_8 (small to big masking), 8_8(same size masking)
 	
 	--mask_type 0 : set masking type. Whereby, 0 indicates square masking, 1 indicates row-wise masking, 2 indicates random masking
-```
-## Testing
+	
+## 8. Testing
 Firstly download the checkpoints
 ```bash
 # cifar-10
@@ -71,7 +72,7 @@ sh exps/stl10_test.sh
 
 ```
 
-## Acknowledgement
+## 9. Acknowledgement
 Codebase from [TransGAN](https://github.com/VITA-Group/TransGAN)
 
 ## Citation
