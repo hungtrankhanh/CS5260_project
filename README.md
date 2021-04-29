@@ -1,6 +1,6 @@
 # CS5260-Project: Transformers Only GAN with Layerwise Masking
 
-## Group TO-GLAM:: 
+## Group TO-GLAM:
 	- Louth Bin Rawshan (A0219290E)
 	- Ren Ruiqiang (A0218966M)
 	- Lim Jia Xian, Clarence (A0212209U)
@@ -27,10 +27,10 @@ Our code is inspired from research paper TransGAN: Two Transformers Can Make One
 ![Square masking](assets/squaremask.png)
 
 ### Row masking
-![Row masking](assets/rowmask.png)
+<img src="assets/rowmask.png" width="200" height="200"/>
 
 ### Random masking
-![Random masking](assets/randommask.png)
+<img src="assets/randommask.png" width="200" height="200"/>
 
 ## Check points were trained in experiments
 
