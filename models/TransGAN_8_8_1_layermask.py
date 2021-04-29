@@ -189,7 +189,7 @@ class Generator(nn.Module):
             self.pos_embed_2,
             self.pos_embed_3
         ]
-        print("TransGAN_8_8_1_layermask 8, 8")
+        print("TransGAN_8_8_1_layermask 8, 4")
         dpr = [x.item() for x in torch.linspace(0, drop_path_rate, depth)]  # stochastic depth decay rule
         self.blocks = nn.ModuleList([
                 Block(
@@ -221,10 +221,10 @@ class Generator(nn.Module):
 #                         drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer),
                     Block(
                         dim=embed_dim//16, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, 8))),
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, 4))),
                     Block(
                         dim=embed_dim//16, num_heads=num_heads, mlp_ratio=mlp_ratio, qkv_bias=qkv_bias, qk_scale=qk_scale,
-                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, 8)))
+                        drop=drop_rate, attn_drop=attn_drop_rate, drop_path=0, norm_layer=norm_layer, is_mask=((self.bottom_width*4, 4)))
                  ]
                 )
                 ])
