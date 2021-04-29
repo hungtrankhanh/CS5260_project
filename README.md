@@ -6,11 +6,8 @@
 	- Lim Jia Xian, Clarence (A0212209U)
 	- Tran Khanh Hung (A0212253W)
 
-
-Code used for [TransGAN: Two Transformers Can Make One Strong GAN](https://arxiv.org/abs/2102.07074). 
-
 ## Related work:
-Our code is inspired from research paper TransGAN: Two Transformers Can Make One Strong GAN ([Github code](https://github.com/VITA-Group/TransGAN))
+Our code is inspired from the research paper [TransGAN: Two Transformers Can Make One Strong GAN](https://arxiv.org/abs/2102.07074) ([Github code](https://github.com/VITA-Group/TransGAN))
 
 ## Main Pipeline
 ![Main Pipeline](assets/TransGAN.png)
