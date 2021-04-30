@@ -49,6 +49,7 @@ sh exps/stl10_train.sh
 ```
 
 Notice: 
+
 	--gen_model TransGAN_8_8_1 : train baseline model on cifar10 dataset
 
 	--gen_model TransGAN_8_8_1_layermask : train layer masking model on cifar10 dataset
