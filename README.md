@@ -71,16 +71,3 @@ sh exps/cifar10_test.sh
 sh exps/stl10_test.sh
 
 ```
-
-## 9. Acknowledgement
-Codebase from [TransGAN](https://github.com/VITA-Group/TransGAN)
-
-## Citation
-```
-@article{jiang2021transgan,
-  title={TransGAN: Two Transformers Can Make One Strong GAN},
-  author={Jiang, Yifan and Chang, Shiyu and Wang, Zhangyang},
-  journal={arXiv preprint arXiv:2102.07074},
-  year={2021}
-}
-```
