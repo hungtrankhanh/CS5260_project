@@ -72,3 +72,5 @@ sh exps/cifar10_test.sh
 sh exps/stl10_test.sh
 
 ```
+## 9. The report
+([Google Drive](https://drive.google.com/file/d/1CJRV5IdW0tVcu-D7nioMfmircbrZGHTa/view?usp=sharing))
